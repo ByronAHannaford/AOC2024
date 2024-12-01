@@ -26,24 +26,34 @@ logger.addHandler(log_handler)
 # ---=== PROBLEM CODE BELOW ===---
 
 
-def parse_input(data_path: Path) -> list:
+from typing import Tuple
+
+def parse_input(data_path: Path) -> Tuple[list, list]:
     """
     Reads and formats input.
     Should return the input data in a format where it is ready to be worked on.
     """
-    with open(data_path, "r") as raw_input:
-        return [l.strip() for l in raw_input.readlines()]
-
-
-def part_1(input_data: list):
 
     listOne = []
     listTwo = []
 
-    for line in input_data:
+    rawInput = []
+    with open(data_path, "r") as raw_input:
+        rawInput = [l.strip() for l in raw_input.readlines()]
+    
+    for line in rawInput:
         splitLine = line.split("   ")
-        listOne.append(splitLine[0])
-        listTwo.append(splitLine[1])
+
+        listOne.append(int(splitLine[0]))
+        listTwo.append(int(splitLine[1]))
+
+    return listOne, listTwo
+
+
+def part_1(input_data: Tuple[list, list]):
+
+    listOne = input_data[0]
+    listTwo = input_data[1]
 
     listOne.sort()
     listTwo.sort()
@@ -51,22 +61,17 @@ def part_1(input_data: list):
     sum = 0
 
     for i in range(len(listOne)):
-        difference = int(listOne[i]) - int(listTwo[i]) 
+        difference = listOne[i] - listTwo[i]
         sum += difference > 0 and difference or difference * -1
     
     """Solution code for Part 1. Should return the solution."""
     return sum
 
 
-def part_2(input_data: list):
+def part_2(input_data: Tuple[list, list]):
     similarilyScore = 0
-    listOne = []
-    listTwo = []
-
-    for line in input_data:
-        splitLine = line.split("   ")
-        listOne.append(int(splitLine[0]))
-        listTwo.append(int(splitLine[1]))
+    listOne = input_data[0]
+    listTwo = input_data[1]
 
     for i in range(len(listOne)):
         similarilyScore += listOne[i] * listTwo.count(listOne[i])
