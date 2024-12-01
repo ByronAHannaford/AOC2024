@@ -59,8 +59,20 @@ def part_1(input_data: list):
 
 
 def part_2(input_data: list):
+    similarilyScore = 0
+    listOne = []
+    listTwo = []
+
+    for line in input_data:
+        splitLine = line.split("   ")
+        listOne.append(int(splitLine[0]))
+        listTwo.append(int(splitLine[1]))
+
+    for i in range(len(listOne)):
+        similarilyScore += listOne[i] * listTwo.count(listOne[i])
+        
     """Solution code for Part 2. Should return the solution."""
-    pass
+    return similarilyScore
 
 
 def run_direct():
