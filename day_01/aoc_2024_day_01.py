@@ -51,33 +51,31 @@ def parse_input(data_path: Path) -> Tuple[list, list]:
 
 
 def part_1(input_data: Tuple[list, list]):
+    listOne, listTwo = input_data
 
-    listOne = input_data[0]
-    listTwo = input_data[1]
-
-    listOne.sort()
-    listTwo.sort()
-
-    sum = 0
-
-    for i in range(len(listOne)):
-        difference = listOne[i] - listTwo[i]
-        sum += difference > 0 and difference or difference * -1
+    # - No need to sort
+    # - abs ensures the value is not negative
+    sum_diff = sum(abs(a - b) for a, b in zip(listOne, listTwo))
     
     """Solution code for Part 1. Should return the solution."""
-    return sum
+    return sum_diff
 
 
 def part_2(input_data: Tuple[list, list]):
-    similarilyScore = 0
-    listOne = input_data[0]
-    listTwo = input_data[1]
+    listOne, listTwo = input_data
 
-    for i in range(len(listOne)):
-        similarilyScore += listOne[i] * listTwo.count(listOne[i])
+    #Use a dict to reduce time complexity
+    count_dict = {}
+    for num in listTwo:
+        if num in count_dict:
+            count_dict[num] += 1
+        else:
+            count_dict[num] = 1
+
+    similarity_score = sum(num * count_dict.get(num, 0) for num in listOne)
         
     """Solution code for Part 2. Should return the solution."""
-    return similarilyScore
+    return similarity_score
 
 
 def run_direct():
