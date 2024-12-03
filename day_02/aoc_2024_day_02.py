@@ -34,10 +34,28 @@ def parse_input(data_path: Path) -> list:
     with open(data_path, "r") as raw_input:
         return [l.strip() for l in raw_input.readlines()]
 
+def isLineSafe(line) -> bool:
+    numbers = list(map(int, line.split()))
+    if len(numbers) < 2:
+        return False  # Not enough numbers to compare
+
+    increasing = numbers[0] < numbers[1]
+
+    for i in range(len(numbers) - 1):
+        diff = numbers[i + 1] - numbers[i]
+        if increasing:
+            if diff <= 0 or diff > 3:
+                return False
+        else:
+            if diff >= 0 or diff < -3:
+                return False
+
+    return True
 
 def part_1(input_data: list):
+            
     """Solution code for Part 1. Should return the solution."""
-    pass
+    return sum(1 for line in input_data if isLineSafe(line))
 
 
 def part_2(input_data: list):
