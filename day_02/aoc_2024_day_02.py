@@ -34,8 +34,8 @@ def parse_input(data_path: Path) -> list:
     with open(data_path, "r") as raw_input:
         return [l.strip() for l in raw_input.readlines()]
 
-def isLineSafe(line) -> bool:
-    numbers = list(map(int, line.split()))
+def isLineSafe(numbers: list[int], problemDampener = False, problemDampenerUsed = False) -> bool:
+    print(numbers)
     if len(numbers) < 2:
         return False  # Not enough numbers to compare
 
@@ -45,22 +45,37 @@ def isLineSafe(line) -> bool:
         diff = numbers[i + 1] - numbers[i]
         if increasing:
             if diff <= 0 or diff > 3:
-                return False
+                if(problemDampener and not problemDampenerUsed):               
+                    return removeOneNumber(numbers)
+                else:
+                    return False
         else:
             if diff >= 0 or diff < -3:
-                return False
+                if(problemDampener and not problemDampenerUsed):
+                    return removeOneNumber(numbers)
+                else:
+                    return False
 
     return True
+
+def removeOneNumber(numbers: list[int]):
+    for i in range(len(numbers)):
+        # Create a new list with the i-th number removed
+        new_numbers = numbers[:i] + numbers[i+1:]
+        # Check if the new list is safe
+        if isLineSafe(new_numbers, True, True):
+            return True
+    return False
 
 def part_1(input_data: list):
             
     """Solution code for Part 1. Should return the solution."""
-    return sum(1 for line in input_data if isLineSafe(line))
+    return sum(1 for line in input_data if isLineSafe(list(map(int, line.split()))))
 
 
 def part_2(input_data: list):
     """Solution code for Part 2. Should return the solution."""
-    pass
+    return sum(1 for line in input_data if isLineSafe(list(map(int,line.split())), True))
 
 
 def run_direct():
