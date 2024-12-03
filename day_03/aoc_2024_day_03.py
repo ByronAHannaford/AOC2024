@@ -4,6 +4,7 @@
 
 import argparse
 import logging
+import re
 import sys
 
 from pathlib import Path
@@ -26,18 +27,25 @@ logger.addHandler(log_handler)
 # ---=== PROBLEM CODE BELOW ===---
 
 
-def parse_input(data_path: Path) -> list:
+def parse_input(data_path: Path) -> str:
     """
     Reads and formats input.
     Should return the input data in a format where it is ready to be worked on.
     """
     with open(data_path, "r") as raw_input:
-        return [l.strip() for l in raw_input.readlines()]
+        return raw_input.read().strip()
+    
+def solveMultiple(match: str):
+    num1, num2 = map(int, match[4: -1].split(","))
+    return num1 * num2
 
 
-def part_1(input_data: list):
+def part_1(input_data: str):
+    pattern = re.compile(r"[m][u][l][(]\d{1,3}[,]\d{1,3}[)]")
+    match = pattern.findall(input_data)
+    
     """Solution code for Part 1. Should return the solution."""
-    pass
+    return sum(map(solveMultiple, match))
 
 
 def part_2(input_data: list):
