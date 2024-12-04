@@ -49,8 +49,24 @@ def part_1(input_data: str):
 
 
 def part_2(input_data: list):
+    pattern = re.compile(r"(mul\(\d{1,3},\d{1,3}\))|(do\(\))|(don't\(\))")
+    match = [m[0] or m[1] or m[2] for m in pattern.findall(input_data)]
+
+    shouldRun = True
+    total = 0
+    for item in match:
+        if item == "don't()":
+            shouldRun = False
+            continue
+        elif item == "do()":
+            shouldRun = True
+            continue
+    
+        if shouldRun:
+            total += solveMultiple(item)
+
     """Solution code for Part 2. Should return the solution."""
-    pass
+    return total
 
 
 def run_direct():
