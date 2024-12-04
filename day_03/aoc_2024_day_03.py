@@ -41,14 +41,14 @@ def solveMultiple(match: str):
 
 
 def part_1(input_data: str):
-    pattern = re.compile(r"[m][u][l][(]\d{1,3}[,]\d{1,3}[)]")
+    pattern = re.compile(r"mul\(\d{1,3},\d{1,3}\)")
     match = pattern.findall(input_data)
     
     """Solution code for Part 1. Should return the solution."""
     return sum(map(solveMultiple, match))
 
 
-def part_2(input_data: list):
+def part_2(input_data: str):
     pattern = re.compile(r"(mul\(\d{1,3},\d{1,3}\))|(do\(\))|(don't\(\))")
     match = [m[0] or m[1] or m[2] for m in pattern.findall(input_data)]
 
